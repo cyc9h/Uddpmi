@@ -2,11 +2,11 @@
 include '../../controller/connection.php';
 include '../../controller/session_include.php';
 
-include '../../model/jenis_kantong.php';
+include '../../model/pilihan_kondisi.php';
 
-$title = 'Jenis Kantong';
+$title = 'Pilihan Jawaban Kondisi';
 
-$x = new jenis_kantong();
+$x = new pilihan_kondisi();
 $data = $x->select_all();
 
 if(isset($_POST['delete'])){
@@ -30,7 +30,7 @@ if(isset($_POST['delete'])){
                 <div class="row">
                     <div class="col-md-2">
                         <div class="card">
-                            <a href="jenis_kantong_new.php" class="btn btn-primary btn-fill">Create New Jenis Kantong</a>
+                            <a href="pilihan_kondisi_new.php" class="btn btn-primary btn-fill">Create New Option</a>
                         </div>
                     </div>
                 </div>
@@ -40,22 +40,22 @@ if(isset($_POST['delete'])){
                           <table id="table_id" class="display">
                                                         <thead>
                                                           <tr>
-                                                            <th>Nama Jenis Kantong</th>
+                                                            <th>Pertanyaan Kondisi</th>
                                                             <th>Action</th>
                                                           </tr>
                                                         </thead>
                                                         <tbody>
-                                                          <?php foreach ($data as $key => $value): ?>
-                                                              <tr>
-                                                                <td><?php echo $value['keterangan'] ?></td>
-                                                                <td>
-                                                                  <form method="post">
-                                                                    <input type="hidden" name="id" value="<?php echo $value['jkantong_id'] ?>">
-                                                                    <input type="submit" name="delete" value="delete" class="btn btn-danger btn-fill">
-                                                                  </form>
-                                                                </td>
-                                                              </tr>
-                                                          <?php endforeach; ?>
+                                                            <?php foreach ($data as $key => $value): ?>
+                                                                <tr>
+                                                                  <td><?php echo $value['keterangan'] ?></td>
+                                                                  <td>
+                                                                    <form method="post">
+                                                                      <input type="hidden" name="id" value="<?php echo $value['pilihan_id'] ?>">
+                                                                      <input type="submit" name="delete" value="delete" class="btn btn-danger btn-fill">
+                                                                    </form>
+                                                                  </td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
                                                         </tbody>
                                                       </table>
                         </div>

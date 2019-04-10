@@ -1,4 +1,4 @@
-aftap<?php
+<?php
 include '../../controller/connection.php';
 include '../../controller/session_include.php';
 

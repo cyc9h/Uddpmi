@@ -40,15 +40,15 @@
                 </a>
             </li>
             <li>
-                <a href="icons.html">
-                    <i class="pe-7s-science"></i>
-                    <p>Icons</p>
+                <a href="kondisi.php">
+                    <i class="pe-7s-note2"></i>
+                    <p>Question List</p>
                 </a>
             </li>
             <li>
-                <a href="maps.html">
-                    <i class="pe-7s-map-marker"></i>
-                    <p>Maps</p>
+                <a href="pilihan_kondisi.php">
+                    <i class="pe-7s-note2"></i>
+                    <p>Answer List</p>
                 </a>
             </li>
             <li>
