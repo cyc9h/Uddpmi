@@ -28,15 +28,15 @@
                 </a>
             </li>
             <li>
-                <a href="table.html">
+                <a href="jenis_donor.php">
                     <i class="pe-7s-note2"></i>
-                    <p>Table List</p>
+                    <p>Jenis Donor List</p>
                 </a>
             </li>
             <li>
-                <a href="typography.html">
-                    <i class="pe-7s-news-paper"></i>
-                    <p>Typography</p>
+                <a href="jenis_kantong.php">
+                    <i class="pe-7s-note2"></i>
+                    <p>Jenis Kantong List</p>
                 </a>
             </li>
             <li>

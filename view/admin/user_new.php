@@ -34,7 +34,7 @@ if(isset($_POST['submit'])){
                   <div class="col-md-12">
                       <div class="card">
                           <div class="header">
-                              <h4 class="title">Edit Profile</h4>
+                              <h4 class="title">Create Profile</h4>
                           </div>
                           <div class="content">
                               <form method="post">
@@ -102,10 +102,4 @@ if(isset($_POST['submit'])){
 
 </body>
 <?php include '../script.html'; ?>
-
-<script type="text/javascript">
-  $(document).ready( function () {
-    $('#table_id').DataTable();
-  } );
-</script>
 </html>
