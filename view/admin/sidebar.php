@@ -28,6 +28,12 @@
                 </a>
             </li>
             <li>
+                <a href="kendaraan.php">
+                    <i class="pe-7s-car"></i>
+                    <p>Kendaraan</p>
+                </a>
+            </li>
+            <li>
                 <a href="jenis_donor.php">
                     <i class="pe-7s-note2"></i>
                     <p>Jenis Donor List</p>
