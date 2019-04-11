@@ -34,6 +34,18 @@
                 </a>
             </li>
             <li>
+                <a href="instansi.php">
+                    <i class="pe-7s-portfolio"></i>
+                    <p>Instansi</p>
+                </a>
+            </li>
+            <li>
+                <a href="event.php">
+                    <i class="pe-7s-note2"></i>
+                    <p>Event</p>
+                </a>
+            </li>
+            <li>
                 <a href="jenis_donor.php">
                     <i class="pe-7s-note2"></i>
                     <p>Jenis Donor List</p>
@@ -55,18 +67,6 @@
                 <a href="pilihan_kondisi.php">
                     <i class="pe-7s-note2"></i>
                     <p>Answer List</p>
-                </a>
-            </li>
-            <li>
-                <a href="notifications.html">
-                    <i class="pe-7s-bell"></i>
-                    <p>Notifications</p>
-                </a>
-            </li>
-    <li class="active-pro">
-                <a href="upgrade.html">
-                    <i class="pe-7s-rocket"></i>
-                    <p>Upgrade to PRO</p>
                 </a>
             </li>
         </ul>

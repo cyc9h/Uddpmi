@@ -2,9 +2,8 @@
 /**
  *
  */
-class jenis_donor
+class instansi
 {
-
   function insert($arr){
     global $dbconn;
     $check = true;
@@ -16,7 +15,7 @@ class jenis_donor
       }
     }
     if($check){
-      $sql = "INSERT INTO jenis_donor (jenis_id, nama)  VALUES (default,'".$arr['nama']."')";
+      $sql = "INSERT INTO instansi (instansi_id,nama,latitude,longitude)  VALUES (default,'".$arr['nama']."',".$arr['lat'].",".$arr['long'].")";
       $result = pg_query($dbconn, $sql);
     }
 
@@ -30,7 +29,7 @@ class jenis_donor
 
   function select_all(){
     global $dbconn;
-    $result = pg_query($dbconn, "SELECT * FROM jenis_donor");
+    $result = pg_query($dbconn, "SELECT * FROM instansi");
     if (!$result) {
         echo "An error occurred.\n";
         exit;
@@ -47,12 +46,29 @@ class jenis_donor
 
   function delete($id){
     global $dbconn;
-    $result = pg_query($dbconn, "DELETE FROM jenis_donor WHERE jenis_id = $id");
+    $result = pg_query($dbconn, "DELETE FROM instansi WHERE instansi_id = '$id'");
 
     if(!$result){
       return 'Delete_Error';
     }else{
       return 'Delete_Success';
+    }
+  }
+
+  function select_by_id($id){
+    global $dbconn;
+    $result = pg_query($dbconn, "SELECT * FROM instansi where MD5(CAST(instansi_id AS CHARACTER VARYING)) = '$id'");
+    if (!$result) {
+        echo "An error occurred.\n";
+        exit;
+    }else{
+      $i=0;
+      $data = [];
+      while($row = pg_fetch_array($result)){
+        $data[$i]=$row;
+        $i++;
+      }
+      return $data;
     }
   }
 }

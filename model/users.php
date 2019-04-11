@@ -35,6 +35,7 @@ class User
         exit;
     }else{
       $i=0;
+      $data = [];
       while($row = pg_fetch_array($result)){
         $data[$i]=$row;
         $i++;
@@ -88,6 +89,7 @@ class User
         exit;
     }else{
       $i=0;
+      $data = [];
       while($row = pg_fetch_array($result)){
         $data[$i]=$row;
         $i++;
