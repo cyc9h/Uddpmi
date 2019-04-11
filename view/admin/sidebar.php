@@ -69,6 +69,12 @@
                     <p>Answer List</p>
                 </a>
             </li>
+            <li>
+                <a href="status_registrasi.php">
+                    <i class="pe-7s-note2"></i>
+                    <p>Status Registrasi</p>
+                </a>
+            </li>
         </ul>
   </div>
 </div>
