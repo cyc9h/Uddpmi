@@ -32,6 +32,18 @@ class kondisi_registrasi
         $loop++;
       }
       $result = pg_query($dbconn,$sql);
+
+      if(isset($_COOKIE['location1'])){
+        $sql = "INSERT INTO registrasi_event (nik,no_datang,no_plat,waktu_mulai,waktu_selesai)
+        VALUES (
+          '".$nik."',
+          ".$x['no_datang'].",
+          '".$_COOKIE['location1']."',
+          '".$_COOKIE['location2']."',
+          '".$_COOKIE['location3']."'
+        )";
+        pg_query($dbconn,$sql);
+      }
     }
 
 
