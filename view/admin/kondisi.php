@@ -40,13 +40,16 @@ if(isset($_POST['delete'])){
                           <table id="table_id" class="display">
                                                         <thead>
                                                           <tr>
+                                                            <th>No.</th>
                                                             <th>Pertanyaan Kondisi</th>
                                                             <th>Action</th>
                                                           </tr>
                                                         </thead>
                                                         <tbody>
+                                                          <?php $i=1; ?>
                                                           <?php foreach ($data as $key => $value): ?>
                                                               <tr>
+                                                                <td><?php echo $i; $i++;  ?></td>
                                                                 <td><?php echo $value['kondisi'] ?></td>
                                                                 <td>
                                                                   <form method="post">
