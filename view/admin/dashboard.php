@@ -1,6 +1,46 @@
 <?php
 include '../../controller/session_include.php';
+include '../../controller/connection.php';
+include '../../controller/report.php';
+
 $title = 'Dashboard';
+$data = [];
+
+if(isset($_POST['submit'])){
+  if($_POST['year'] == ''){
+    $_POST['year'] = date("Y");
+  }
+  switch ($_POST['report_type']) {
+    case '1':
+      $data = report_01($_POST['month'],$_POST['year']);
+      $til = "Jumlah Registrasi Berdasarkan Kelompok Umur, Jenis Kelamin Dalam 1 Bulan(".$_POST['month']."/".$_POST['year'].")";
+      break;
+    case '2':
+      $data = report_02($_POST['month'],$_POST['year']);
+      $til = "Jumlah Registrasi Berdasarkan Kelompok Umur, Lokasi Dan Jenis Donor Dalam 1 Bulan(".$_POST['month']."/".$_POST['year'].")";
+      break;
+    case '3':
+      $data = report_03($_POST['month'],$_POST['year']);
+      $til = "Jumlah Registrasi Berdasarkan Kelompok Umur Dalam 1 Bulan(".$_POST['month']."/".$_POST['year'].")";
+      break;
+    case '4':
+      $data = report_04($_POST['month'],$_POST['year']);
+      $til = "Jumlah Registrasi Berdasarkan Kelompok Umur, Golongan Darah Dan Rh Dalam 1 Bulan(".$_POST['month']."/".$_POST['year'].")";
+      break;
+    case '5':
+      $data = report_05($_POST['month'],$_POST['year']);
+      $til = "Jumlah Registrasi Yang Ditolak Berdasarkan Alasan Penolakan(".$_POST['month']."/".$_POST['year'].")";
+      break;
+  }
+  if(count($data)!=0){
+    $header_data = count($data)/2;
+    for ($i=0; $i <= $header_data; $i++) {
+      unset($data[0][$i]);
+    }
+  }
+
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -17,208 +57,78 @@ $title = 'Dashboard';
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="card">
-
-                            <div class="header">
-                                <h4 class="title">Email Statistics</h4>
-                                <p class="category">Last Campaign Performance</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartPreferences" class="ct-chart ct-perfect-fourth"></div>
-
-                                <div class="footer">
-                                    <div class="legend">
-                                        <i class="fa fa-circle text-info"></i> Open
-                                        <i class="fa fa-circle text-danger"></i> Bounce
-                                        <i class="fa fa-circle text-warning"></i> Unsubscribe
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="fa fa-clock-o"></i> Campaign sent 2 days ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Users Behavior</h4>
-                                <p class="category">24 Hours performance</p>
+                                <h4 class="title"><?php if (isset($til)): ?>
+                                  <?php echo $til ?>
+                                <?php else: ?>
+                                  Report
+                                <?php endif; ?></h4>
                             </div>
                             <div class="content">
-                                <div id="chartHours" class="ct-chart"></div>
-                                <div class="footer">
-                                    <div class="legend">
-                                        <i class="fa fa-circle text-info"></i> Open
-                                        <i class="fa fa-circle text-danger"></i> Click
-                                        <i class="fa fa-circle text-warning"></i> Click Second Time
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="fa fa-history"></i> Updated 3 minutes ago
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="header">
-                                <h4 class="title">2014 Sales</h4>
-                                <p class="category">All products including Taxes</p>
-                            </div>
-                            <div class="content">
-                                <div id="chartActivity" class="ct-chart"></div>
-
-                                <div class="footer">
-                                    <div class="legend">
-                                        <i class="fa fa-circle text-info"></i> Tesla Model S
-                                        <i class="fa fa-circle text-danger"></i> BMW 5 Series
-                                    </div>
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="fa fa-check"></i> Data information certified
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="card ">
-                            <div class="header">
-                                <h4 class="title">Tasks</h4>
-                                <p class="category">Backend development</p>
-                            </div>
-                            <div class="content">
-                                <div class="table-full-width">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-													<div class="checkbox">
-						  							  	<input id="checkbox1" type="checkbox">
-						  							  	<label for="checkbox1"></label>
-					  						  		</div>
-                                                </td>
-                                                <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                                        <i class="fa fa-edit"></i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-													<div class="checkbox">
-						  							  	<input id="checkbox2" type="checkbox" checked>
-						  							  	<label for="checkbox2"></label>
-					  						  		</div>
-                                                </td>
-                                                <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                                        <i class="fa fa-edit"></i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-													<div class="checkbox">
-						  							  	<input id="checkbox3" type="checkbox">
-						  							  	<label for="checkbox3"></label>
-					  						  		</div>
-                                                </td>
-                                                <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-												</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                                        <i class="fa fa-edit"></i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-													<div class="checkbox">
-						  							  	<input id="checkbox4" type="checkbox" checked>
-						  							  	<label for="checkbox4"></label>
-					  						  		</div>
-                                                </td>
-                                                <td>Create 4 Invisible User Experiences you Never Knew About</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                                        <i class="fa fa-edit"></i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-													<div class="checkbox">
-						  							  	<input id="checkbox5" type="checkbox">
-						  							  	<label for="checkbox5"></label>
-					  						  		</div>
-                                                </td>
-                                                <td>Read "Following makes Medium better"</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                                        <i class="fa fa-edit"></i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-													<div class="checkbox">
-						  							  	<input id="checkbox6" type="checkbox" checked>
-						  							  	<label for="checkbox6"></label>
-					  						  		</div>
-                                                </td>
-                                                <td>Unfollow 5 enemies from twitter</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-info btn-simple btn-xs">
-                                                        <i class="fa fa-edit"></i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="fa fa-times"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
+                              <div class="row">
+                                <form method="post">
+                                  <div class="col-md-4">
+                                    <select class="form-control" name="report_type">
+                                      <option value="1">Jumlah Registrasi Berdasarkan Kelompok Umur, Jenis Kelamin Dalam 1 Bulan</option>
+                                      <option value="2">Jumlah Registrasi Berdasarkan Kelompok Umur, Lokasi Dan Jenis Donor Dalam 1 Bulan</option>
+                                      <option value="3">Jumlah Registrasi Berdasarkan Kelompok Umur Dalam 1 Bulan</option>
+                                      <option value="4">Jumlah Registrasi Berdasarkan Kelompok Umur, Golongan Darah Dan Rh Dalam 1 Bulan</option>
+                                      <option value="5">Jumlah Registrasi Yang Ditolak Berdasarkan Alasan Penolakan</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <select class="form-control" name="month">
+                                      <option value="1">Januari</option>
+                                      <option value="2">Februari</option>
+                                      <option value="3">Maret</option>
+                                      <option value="4">April</option>
+                                      <option value="5">Mei</option>
+                                      <option value="6">Juni</option>
+                                      <option value="7">Juli</option>
+                                      <option value="8">Agustus</option>
+                                      <option value="9">September</option>
+                                      <option value="10">Oktober</option>
+                                      <option value="11">November</option>
+                                      <option value="12">Desember</option>
+                                    </select>
+                                  </div>
+                                  <div class="col-md-3">
+                                    <input type="text" name="year" class="form-control" placeholder="Tahun">
+                                  </div>
+                                  <div class="col-md-2">
+                                    <input type="submit" name="submit" value="Submit" class="btn btn-primary btn-fill pull-right">
+                                  </div>
+                                </form>
+                              </div>
+                                <div class="row">
+                                  <?php if (count($data)!=0): ?>
+                                    <table id="table_id">
+                                      <thead>
+                                        <tr>
+                                          <?php foreach ($data[0] as $key => $value): ?>
+                                            <th><?php echo $key ?></th>
+                                          <?php endforeach; ?>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <?php foreach ($data as $key => $value): ?>
+                                          <tr>
+                                            <?php foreach ($data[0] as $key2 => $value2): ?>
+                                              <td><?php echo $data[$key][$key2] ?></td>
+                                            <?php endforeach; ?>
+                                          </tr>
+                                        <?php endforeach; ?>
+                                      </tbody>
                                     </table>
-                                </div>
-
-                                <div class="footer">
-                                    <hr>
-                                    <div class="stats">
-                                        <i class="fa fa-history"></i> Updated 3 minutes ago
-                                    </div>
+                                  <?php else: ?>
+                                    Data Tidak Ditemukan
+                                  <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </div>
 
@@ -230,4 +140,10 @@ $title = 'Dashboard';
 
 </body>
 <?php include '../script.html'; ?>
+
+<script type="text/javascript">
+  $(document).ready( function () {
+    $('#table_id').DataTable();
+  } );
+</script>
 </html>
