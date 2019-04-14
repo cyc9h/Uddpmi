@@ -18,12 +18,16 @@ if(isset($_POST['set'])){
   setcookie('location1',$_POST['no_plat'], time() + (86400 * 30), "/");
   setcookie('location2',$_POST['waktu_mulai'], time() + (86400 * 30), "/");
   setcookie('location3',$_POST['waktu_selesai'], time() + (86400 * 30), "/");
+  header('Location:#');
 }
 
 if(isset($_POST['del'])){
   unset($_COOKIE['location1']);
   unset($_COOKIE['location2']);
   unset($_COOKIE['location3']);
+  setcookie('location1', null, -1,"/");
+  setcookie('location2', null, -1,"/");
+  setcookie('location3', null, -1,"/");
 }
 ?>
 <!doctype html>
@@ -73,7 +77,9 @@ if(isset($_POST['del'])){
                                                                   <td><?php echo $value['waktu_selesai'] ?></td>
                                                                   <td><?php echo $value['target'] ?></td>
                                                                   <td>
-                                                                    <a href="event_detail.php?no_plat=<?php echo $value['no_plat'] ?>&waktu_mulai=<?php echo $value['waktu_mulai'] ?>" class="btn btn-primary btn-fill">Detail</a>
+                                                                    <form method="post">
+                                                                      <a href="event_detail.php?no_plat=<?php echo $value['no_plat'] ?>&waktu_mulai=<?php echo $value['waktu_mulai'] ?>" class="btn btn-primary btn-fill">Detail</a>
+                                                                    </form>
                                                                   </td>
                                                                   <td>
                                                                     <form method="post">

@@ -44,15 +44,9 @@ class status_registrasi
     }
   }
 
-  function select_in($arr){
+  function select_fail(){
     global $dbconn;
-    $sql = "SELECT * FROM status_registrasi WHERE status_id IN (";
-      foreach ($arr as $key => $value) {
-        $sql = $sql.$value.",";
-      }
-    $sql = $sql.")";
-
-
+    $result = pg_query($dbconn, "SELECT * FROM status_registrasi WHERE status_id > 4");
     if (!$result) {
         echo "An error occurred.\n";
         exit;

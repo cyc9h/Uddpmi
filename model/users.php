@@ -97,6 +97,46 @@ class User
       return $data;
     }
   }
+
+  function select_one_with_role($arr){
+    global $dbconn;
+    $sql = "SELECT users.*,hb_id,aftap_id,paramedik_id from users
+      LEFT JOIN petugas_hb ON user_id=hb_id
+      LEFT JOIN petugas_aftap ON user_id=aftap_id
+      LEFT JOIN petugas_paramedik ON user_id=paramedik_id
+      WHERE username = '".$arr['username']."' AND password = MD5('".$arr['password']."')";
+
+    $result = pg_query($dbconn, $sql);
+    if (!$result) {
+        echo "An error occurred.\n";
+        exit;
+    }else{
+      $i=0;
+      $data = [];
+      while($row = pg_fetch_array($result)){
+        $data[$i]=$row;
+        $i++;
+      }
+      return $data;
+    }
+  }
+
+  function select_by_id($id){
+    global $dbconn;
+    $result = pg_query($dbconn, "SELECT * FROM users WHERE user_id = $id");
+    if (!$result) {
+        echo "An error occurred.\n";
+        exit;
+    }else{
+      $i=0;
+      $data = [];
+      while($row = pg_fetch_array($result)){
+        $data[$i]=$row;
+        $i++;
+      }
+      return $data;
+    }
+  }
 }
 
 ?>
