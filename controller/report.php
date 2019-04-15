@@ -90,9 +90,9 @@ function report_03($month, $year){
       registrasi
 			  inner join member on registrasi.nik = member.nik
 	where
-	  EXTRACT(MONTH FROM tanggal) = 4
+	  EXTRACT(MONTH FROM tanggal) = $month
 	AND
-	  EXTRACT(YEAR FROM tanggal) = 2019
+	  EXTRACT(YEAR FROM tanggal) = $year
   ) as t
 	  group by range  ORDER BY range
   ;";
@@ -131,9 +131,9 @@ function report_04($month, $year){
 			  inner join member on registrasi.nik = member.nik
 			  inner join pemeriksaan_hb on (registrasi.nik,registrasi.no_datang) = (pemeriksaan_hb.nik,pemeriksaan_hb.no_datang)
 	where
-	  EXTRACT(MONTH FROM tanggal) = 4
+	  EXTRACT(MONTH FROM tanggal) = $month
 	AND
-	  EXTRACT(YEAR FROM tanggal) = 2019
+	  EXTRACT(YEAR FROM tanggal) = $year
   ) as t
 	  group by range,gol_darah, rh  ORDER BY range;	  ";
 
@@ -154,18 +154,37 @@ function report_04($month, $year){
 
 function report_05($month, $year){
   global $dbconn;
-  $sql = "SELECT
- 	status_registrasi.keterangan,
- 	COUNT (*) AS COUNT
-FROM
-	registrasi
-INNER JOIN
-	status_registrasi
-		ON registrasi.status_id = status_registrasi.status_id
-WHERE
-	registrasi.status_id >4
-GROUP BY
-	status_registrasi.keterangan	  ";
+  $sql = "SELECT status_registrasi.keterangan,COUNT (*) AS COUNT
+          FROM
+	         registrasi
+          INNER JOIN status_registrasi ON registrasi.status_id = status_registrasi.status_id
+          WHERE
+            registrasi.status_id >4 AND
+            EXTRACT(MONTH FROM tanggal) = $month AND
+            EXTRACT(YEAR FROM tanggal) = $year
+          GROUP BY status_registrasi.keterangan	  ";
+
+  $result = pg_query($dbconn, $sql);
+  if (!$result) {
+      echo "An error occurred.\n";
+      exit;
+  }else{
+    $i=0;
+    $data = [];
+    while($row = pg_fetch_array($result)){
+      $data[$i]=$row;
+      $i++;
+    }
+    return $data;
+  }
+}
+
+function report_06($month, $year){
+  global $dbconn;
+  $sql = "SELECT instansi.nama as Nama_Instansi, kerjasama_instansi.waktu_mulai as Tanggal, kerjasama_instansi.target as Rencana_Jumlah, kendaraan.nama AS Kendaraan FROM kerjasama_instansi
+INNER JOIN instansi ON kerjasama_instansi.instansi_id = instansi.instansi_id
+INNER JOIN kendaraan ON kerjasama_instansi.no_plat = kendaraan.no_plat
+WHERE EXTRACT(MONTH FROM waktu_mulai)=$month AND EXTRACT(YEAR FROM waktu_mulai)=$year";
 
   $result = pg_query($dbconn, $sql);
   if (!$result) {

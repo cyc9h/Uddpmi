@@ -31,9 +31,13 @@ if(isset($_POST['submit'])){
       $data = report_05($_POST['month'],$_POST['year']);
       $til = "Jumlah Registrasi Yang Ditolak Berdasarkan Alasan Penolakan(".$_POST['month']."/".$_POST['year'].")";
       break;
+    case '6':
+    $data = report_06($_POST['month'],$_POST['year']);
+    $til = "Catatan Kerjasama Instansi Bulanan(".$_POST['month']."/".$_POST['year'].")";
+      break;
   }
   if(count($data)!=0){
-    $header_data = count($data)/2;
+    $header_data = count($data[0])/2;
     for ($i=0; $i <= $header_data; $i++) {
       unset($data[0][$i]);
     }
@@ -76,6 +80,7 @@ if(isset($_POST['submit'])){
                                       <option value="3">Jumlah Registrasi Berdasarkan Kelompok Umur Dalam 1 Bulan</option>
                                       <option value="4">Jumlah Registrasi Berdasarkan Kelompok Umur, Golongan Darah Dan Rh Dalam 1 Bulan</option>
                                       <option value="5">Jumlah Registrasi Yang Ditolak Berdasarkan Alasan Penolakan</option>
+                                      <option value="6">Catatan Kerjasama Instansi Bulanan</option>
                                     </select>
                                   </div>
                                   <div class="col-md-3">
@@ -122,6 +127,9 @@ if(isset($_POST['submit'])){
                                         <?php endforeach; ?>
                                       </tbody>
                                     </table>
+                                    <div class="col-md-4">
+                                      <a target="_blank" href="print.php?month=<?php echo $_POST['month'] ?>&year=<?php echo $_POST['year'] ?>&report_type=<?php echo $_POST['report_type'] ?>" class="btn btn-primary btn-fill pull-left">Print Report</a>
+                                    </div>
                                   <?php else: ?>
                                     Data Tidak Ditemukan
                                   <?php endif; ?>
