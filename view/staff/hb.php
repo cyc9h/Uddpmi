@@ -24,14 +24,7 @@ $data = $x->select_by_status_id(1);
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="card">
-                          <?php if (isset($_COOKIE['location1'])): ?>
-                              <div class="col-md-12">
-                                <form method="post">
-                                  <input type="submit" name="del" value="Delete Current Location" class="btn btn-danger btn-fill pull-right">
-                                </form>
-                              </div>
-                          <?php endif; ?>
+                        <div class="card">                          
                             <table id="table_id" class="display">
                                                           <thead>
                                                             <tr>

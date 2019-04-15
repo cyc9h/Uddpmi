@@ -1,7 +1,8 @@
 <?php
 function report_01($month, $year){
   global $dbconn;
-  $sql = "select concat(10*floor(age/10), '-', 10*CEILING(age/10)) as range,
+  $sql = "
+  select concat(10*floor(age/10), '-', 10*CEILING(age/10)) as range,
     jenis_kelamin,
     count(*) as count
   from (
@@ -34,7 +35,8 @@ function report_01($month, $year){
 
 function report_02($month, $year){
   global $dbconn;
-  $sql = "select
+  $sql = "
+  select
     concat(10*floor(age/10), '-', 10*CEILING(age/10)) as range,
 	nama as jenis_donor,
 	CASE WHEN no_plat IS NULL THEN 'Pusat'
@@ -52,7 +54,8 @@ function report_02($month, $year){
       registrasi
 			  inner join jenis_donor on (registrasi.jenis_id) = (jenis_donor.jenis_id)
 			  inner join member on registrasi.nik = member.nik
-			  left join registrasi_event ON (registrasi.nik,registrasi.no_datang) = (registrasi_event.nik,registrasi_event.no_datang)
+			  left join registrasi_event ON
+        (registrasi.nik,registrasi.no_datang) = (registrasi_event.nik,registrasi_event.no_datang)
 	where
 	  EXTRACT(MONTH FROM tanggal) = $month
 	AND
@@ -78,7 +81,8 @@ function report_02($month, $year){
 
 function report_03($month, $year){
   global $dbconn;
-  $sql = "  select
+  $sql = "
+  select
     concat(10*floor(age/10), '-', 10*CEILING(age/10)) as range,
     count(*) as count
   from (
@@ -114,7 +118,8 @@ function report_03($month, $year){
 
 function report_04($month, $year){
   global $dbconn;
-  $sql = "  select
+  $sql = "
+  select
     concat(10*floor(age/10), '-', 10*CEILING(age/10)) as range,
 	gol_darah,
 	rh,
@@ -129,7 +134,8 @@ function report_04($month, $year){
     from
       registrasi
 			  inner join member on registrasi.nik = member.nik
-			  inner join pemeriksaan_hb on (registrasi.nik,registrasi.no_datang) = (pemeriksaan_hb.nik,pemeriksaan_hb.no_datang)
+			  inner join pemeriksaan_hb on
+        (registrasi.nik,registrasi.no_datang) = (pemeriksaan_hb.nik,pemeriksaan_hb.no_datang)
 	where
 	  EXTRACT(MONTH FROM tanggal) = $month
 	AND
@@ -181,7 +187,9 @@ function report_05($month, $year){
 
 function report_06($month, $year){
   global $dbconn;
-  $sql = "SELECT instansi.nama as Nama_Instansi, kerjasama_instansi.waktu_mulai as Tanggal, kerjasama_instansi.target as Rencana_Jumlah, kendaraan.nama AS Kendaraan FROM kerjasama_instansi
+  $sql = "
+SELECT instansi.nama as Nama_Instansi, kerjasama_instansi.waktu_mulai as Tanggal,
+kerjasama_instansi.target as Rencana_Jumlah, kendaraan.nama AS Kendaraan FROM kerjasama_instansi
 INNER JOIN instansi ON kerjasama_instansi.instansi_id = instansi.instansi_id
 INNER JOIN kendaraan ON kerjasama_instansi.no_plat = kendaraan.no_plat
 WHERE EXTRACT(MONTH FROM waktu_mulai)=$month AND EXTRACT(YEAR FROM waktu_mulai)=$year";
