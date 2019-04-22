@@ -15,7 +15,7 @@ class member
       }
     }
     if($check){
-      $sql = "INSERT INTO member (nik,nama,jenis_kelamin,alamat,pekerjaan,tempat_lahir,tanggal_lahir)
+      $sql = "INSERT INTO member (nik,nama,jenis_kelamin,alamat,pekerjaan,tempat_lahir,tanggal_lahir,gol_darah,rh)
       VALUES (
         '".$arr['nik']."',
         '".$arr['nama']."',
@@ -23,7 +23,9 @@ class member
         '".$arr['alamat']."',
         '".$arr['pekerjaan']."',
         '".$arr['tempat_lahir']."',
-        '".$arr['tanggal_lahir']."'
+        '".$arr['tanggal_lahir']."',
+        '".$arr['gol_darah']."',
+        '".$arr['rh']."'
       )";
       echo $sql;
       $result = pg_query($dbconn, $sql);
@@ -99,7 +101,9 @@ class member
                 alamat='".$arr['alamat']."',
                 pekerjaan='".$arr['pekerjaan']."',
                 tempat_lahir='".$arr['tempat_lahir']."',
-                tanggal_lahir='".$arr['tanggal_lahir']."'
+                tanggal_lahir='".$arr['tanggal_lahir']."',
+                gol_darah = '".$arr['gol_darah']."',
+                rh = '".$arr['rh']."'
 	            WHERE nik='".$arr['nik']."'";
       echo $sql;
       $result = pg_query($dbconn, $sql);

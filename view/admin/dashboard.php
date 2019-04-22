@@ -10,38 +10,17 @@ if(isset($_POST['submit'])){
   if($_POST['year'] == ''){
     $_POST['year'] = date("Y");
   }
+
   switch ($_POST['report_type']) {
     case '1':
-      $data = report_01($_POST['month'],$_POST['year']);
-      $til = "Jumlah Registrasi Berdasarkan Kelompok Umur, Jenis Kelamin Dalam 1 Bulan(".$_POST['month']."/".$_POST['year'].")";
+      header('Location:print.php?month='.$_POST['month'].'&year='.$_POST['year']);
       break;
-    case '2':
-      $data = report_02($_POST['month'],$_POST['year']);
-      $til = "Jumlah Registrasi Berdasarkan Kelompok Umur, Lokasi Dan Jenis Donor Dalam 1 Bulan(".$_POST['month']."/".$_POST['year'].")";
-      break;
-    case '3':
-      $data = report_03($_POST['month'],$_POST['year']);
-      $til = "Jumlah Registrasi Berdasarkan Kelompok Umur Dalam 1 Bulan(".$_POST['month']."/".$_POST['year'].")";
-      break;
-    case '4':
-      $data = report_04($_POST['month'],$_POST['year']);
-      $til = "Jumlah Registrasi Berdasarkan Kelompok Umur, Golongan Darah Dan Rh Dalam 1 Bulan(".$_POST['month']."/".$_POST['year'].")";
-      break;
-    case '5':
-      $data = report_05($_POST['month'],$_POST['year']);
-      $til = "Jumlah Registrasi Yang Ditolak Berdasarkan Alasan Penolakan(".$_POST['month']."/".$_POST['year'].")";
-      break;
-    case '6':
-    $data = report_06($_POST['month'],$_POST['year']);
-    $til = "Catatan Kerjasama Instansi Bulanan(".$_POST['month']."/".$_POST['year'].")";
+
+    default:
+      header('Location:print2.php?month='.$_POST['month'].'&year='.$_POST['year']);
       break;
   }
-  if(count($data)!=0){
-    $header_data = count($data[0])/2;
-    for ($i=0; $i <= $header_data; $i++) {
-      unset($data[0][$i]);
-    }
-  }
+
 
 }
 
@@ -75,12 +54,8 @@ if(isset($_POST['submit'])){
                                 <form method="post">
                                   <div class="col-md-4">
                                     <select class="form-control" name="report_type">
-                                      <option value="1">Jumlah Registrasi Berdasarkan Kelompok Umur, Jenis Kelamin Dalam 1 Bulan</option>
-                                      <option value="2">Jumlah Registrasi Berdasarkan Kelompok Umur, Lokasi Dan Jenis Donor Dalam 1 Bulan</option>
-                                      <option value="3">Jumlah Registrasi Berdasarkan Kelompok Umur Dalam 1 Bulan</option>
-                                      <option value="4">Jumlah Registrasi Berdasarkan Kelompok Umur, Golongan Darah Dan Rh Dalam 1 Bulan</option>
-                                      <option value="5">Jumlah Registrasi Yang Ditolak Berdasarkan Alasan Penolakan</option>
-                                      <option value="6">Catatan Kerjasama Instansi Bulanan</option>
+                                      <option value="1">Whole Blood</option>
+                                      <option value="2">Rekap Rencana Jadwal Mobil</option>
                                     </select>
                                   </div>
                                   <div class="col-md-3">
@@ -107,33 +82,6 @@ if(isset($_POST['submit'])){
                                   </div>
                                 </form>
                               </div>
-                                <div class="row">
-                                  <?php if (count($data)!=0): ?>
-                                    <table id="table_id">
-                                      <thead>
-                                        <tr>
-                                          <?php foreach ($data[0] as $key => $value): ?>
-                                            <th><?php echo $key ?></th>
-                                          <?php endforeach; ?>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        <?php foreach ($data as $key => $value): ?>
-                                          <tr>
-                                            <?php foreach ($data[0] as $key2 => $value2): ?>
-                                              <td><?php echo $data[$key][$key2] ?></td>
-                                            <?php endforeach; ?>
-                                          </tr>
-                                        <?php endforeach; ?>
-                                      </tbody>
-                                    </table>
-                                    <div class="col-md-4">
-                                      <a target="_blank" href="print.php?month=<?php echo $_POST['month'] ?>&year=<?php echo $_POST['year'] ?>&report_type=<?php echo $_POST['report_type'] ?>" class="btn btn-primary btn-fill pull-left">Print Report</a>
-                                    </div>
-                                  <?php else: ?>
-                                    Data Tidak Ditemukan
-                                  <?php endif; ?>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -24,7 +24,7 @@ if(isset($_POST['submit'])){
 <html lang="en">
 <?php include '../head.html'; ?>
 <body>
-  <br><br><br><br><br>
+  <br><br>
   <div class="content">
       <div class="container-fluid">
           <div class="row">
@@ -86,6 +86,40 @@ if(isset($_POST['submit'])){
                                 </div>
                             </div>
                             <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Golongan Darah</label>
+                                  <select class="form-control" name="gol_darah">
+                                    <option value="A" <?php if ($data['gol_darah']=='A'): ?>
+                                      selected
+                                    <?php endif; ?>>A</option>
+                                    <option value="B" <?php if ($data['gol_darah']=='B'): ?>
+                                      selected
+                                    <?php endif; ?>>B</option>
+                                    <option value="AB" <?php if ($data['gol_darah']=='AB'): ?>
+                                      selected
+                                    <?php endif; ?>>AB</option>
+                                    <option value="O" <?php if ($data['gol_darah']=='O'): ?>
+                                      selected
+                                    <?php endif; ?>>O</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Rhesus</label>
+                                  <select class="form-control" name="rh">
+                                    <option value="+" <?php if ($data['rh']=="+"): ?>
+                                      selected
+                                    <?php endif; ?>>Positif</option>
+                                    <option value="-" <?php if ($data['rh']=="-"): ?>
+                                      selected
+                                    <?php endif; ?>>Negatif</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label>Alamat</label>
@@ -107,7 +141,7 @@ if(isset($_POST['submit'])){
 
       </div>
   </div>
-    <br><br>
+    <br>
     <?php include '../footer.html'; ?>
 </body>
 

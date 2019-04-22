@@ -19,7 +19,7 @@ if(isset($_POST['submit'])){
 <html lang="en">
 <?php include '../head.html'; ?>
 <body>
-  <br><br><br><br><br>
+  <br><br>
   <div class="content">
       <div class="container-fluid">
           <div class="row">
@@ -77,6 +77,28 @@ if(isset($_POST['submit'])){
                                 </div>
                             </div>
                             <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Golongan Darah</label>
+                                  <select class="form-control" name="gol_darah">
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="AB">AB</option>
+                                    <option value="O">O</option>
+                                  </select>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <label>Rhesus</label>
+                                  <select class="form-control" name="rh">
+                                    <option value="+">Positif</option>
+                                    <option value="-">Negatif</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <label>Alamat</label>
@@ -98,7 +120,7 @@ if(isset($_POST['submit'])){
 
       </div>
   </div>
-    <br><br>
+    <br>
     <?php include '../footer.html'; ?>
 </body>
 

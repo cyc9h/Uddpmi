@@ -89,32 +89,10 @@ if(isset($_POST['submit'])){
                                       </div>
                                     </div>
                                     <div class="col-md-6">
-                                      <div class="form-group">
-                                        <label>Golongan Darah</label>
-                                        <select class="form-control" name="gol_darah">
-                                          <option value="A">A</option>
-                                          <option value="B">B</option>
-                                          <option value="AB">AB</option>
-                                          <option value="O">O</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-md-6">
-                                      <div class="form-group">
-                                        <label>Rhesus</label>
-                                        <select class="form-control" name="rh">
-                                          <option value="+">Positif</option>
-                                          <option value="-">Negatif</option>
-                                        </select>
-                                      </div>
-                                    </div>
-                                    <div class="col-md-6">
                                       <br>
                                       <input type="submit" name="submit" value="Submit" class="btn btn-primary btn-fill pull-right">
                                     </div>
-                                  </div>
+                                  </div>                                  
                               </form>
                           </div>
                       </div>

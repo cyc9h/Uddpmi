@@ -15,16 +15,14 @@ class pemeriksaan_hb
       }
     }
     if($check){
-      $sql = "INSERT INTO pemeriksaan_hb (nik,no_datang,hb_id,hb,hct,berat_badan,gol_darah,rh)
+      $sql = "INSERT INTO pemeriksaan_hb (nik,no_datang,hb_id,hb,hct,berat_badan)
       VALUES (
         '".$arr['nik']."',
         ".$arr['no_datang'].",
         ".$arr['hb_id'].",
         ".$arr['hb'].",
         ".$arr['hct'].",
-        ".$arr['berat_badan'].",
-        '".$arr['gol_darah']."',
-        '".$arr['rh']."'
+        ".$arr['berat_badan']."
       )";
       $result = pg_query($dbconn, $sql);
     }

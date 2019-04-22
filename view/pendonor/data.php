@@ -82,6 +82,14 @@ if(count($data)==0){
                                 </div>
                               </div>
                               <div class="row">
+                                <div class="col-md-4">
+                                  <label for="nik">Golongan Darah</label>
+                                </div>
+                                <div class="col-md-8">
+                                  <?php echo $data['gol_darah'].$data['rh'] ?>
+                                </div>
+                              </div>
+                              <div class="row">
                                 <div class="col-md-12">
                                   <a href="update.php?nik=<?php echo $data['nik'] ?>" class="btn btn-warning btn-fill pull-left">Update</a>
                                   <a href="register.php?nik=<?php echo $data['nik'] ?>" class="btn btn-primary btn-fill pull-right">Donor Sekarang</a>
