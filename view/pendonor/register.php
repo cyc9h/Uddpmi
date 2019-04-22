@@ -62,7 +62,10 @@ if(isset($_POST['submit'])){
                                         <label>Jenis Donor Darah</label>
                                         <select class="form-control" name="jenis_id">
                                           <?php foreach ($jdata as $key => $value): ?>
-                                            <option value="<?php echo $value['jenis_id'] ?>"><?php echo $value['nama'] ?></option>
+                                            <?php if ($value['jenis_id']>2&&isset($_COOKIE['location1'])): ?>
+                                            <?php else: ?>
+                                              <option value="<?php echo $value['jenis_id'] ?>"><?php echo $value['nama'] ?></option>
+                                            <?php endif; ?>                                            
                                           <?php endforeach; ?>
                                         </select>
                                     </div>

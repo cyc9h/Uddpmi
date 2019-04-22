@@ -88,7 +88,6 @@ $datab = report_b($_GET['month'],$_GET['year']);
             <td><?php echo $data[$key][$key2] ?></td>
           <?php endforeach; ?>
         </tr>
-        <?php $x=1; ?>
       <?php endforeach; ?>
     </tbody>
   </table>
@@ -99,6 +98,7 @@ $datab = report_b($_GET['month'],$_GET['year']);
       <thead>
         <tr>
           <th>NO.</th>
+          <?php $x=1; ?>
           <?php foreach ($datab[0] as $key => $value): ?>
             <th><?php echo $key ?></th>
           <?php endforeach; ?>

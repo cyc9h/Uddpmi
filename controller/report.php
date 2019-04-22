@@ -97,6 +97,7 @@ function report_b($month, $year){
   	SUM(CASE WHEN nik IS NOT NULL AND EXTRACT(MONTH FROM tanggal)=$month AND EXTRACT(YEAR FROM tanggal)=$year THEN 1 ELSE 0 END) AS ".'"Jumlah"'."
   FROM status_registrasi
   LEFT JOIN registrasi ON status_registrasi.status_id = registrasi.status_id
+  WHERE status_registrasi.status_id>4
   GROUP BY keterangan
   ";
 
