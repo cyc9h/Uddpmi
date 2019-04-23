@@ -119,6 +119,18 @@ $datab = report_b($_GET['month'],$_GET['year']);
     Data Tidak Ditemukan
   <?php endif; ?>
 
+  <br>
+  <div class="col-md-8">
+
+  </div>
+  <div class="col-md-4"><center>
+    <p style="margin:0">Padang,<?php echo date('d F Y'); ?></p>
+    <p style="margin:0">UDD PMI Kota Padang</p>
+    <p style="margin:0">Direktur</p>
+    <br><br>
+    <p style="margin:0"><?php echo $_SESSION['data']['nama'] ?></p>
+  </div></center>
+
 </body>
 <?php include '../script.html'; ?>
 
