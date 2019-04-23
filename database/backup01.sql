@@ -146,6 +146,10 @@ if new.no_datang = 1 and new.jenis_id = 2 then
 new.jenis_id = 1;
 end if;
 
+if new.no_datang != 1 and new.jenis_id = 1 then
+new.jenis_id = 2;
+end if;
+
 return new;
 end;
 $$;
@@ -215,8 +219,8 @@ CREATE TABLE public.donor (
     no_datang integer NOT NULL,
     aftap_id integer NOT NULL,
     nomor_kantong integer NOT NULL,
-    reaksi_donor character varying(255) NOT NULL,
-    jumlah_ambil numeric NOT NULL
+    reaksi_donor character varying(30) NOT NULL,
+    jumlah_ambil numeric(3,0) NOT NULL
 );
 
 
@@ -250,7 +254,7 @@ ALTER SEQUENCE public.donor_nomor_kantung_seq OWNED BY public.donor.nomor_kanton
 
 CREATE TABLE public.instansi (
     instansi_id integer NOT NULL,
-    nama character varying(255) NOT NULL,
+    nama character varying(50) NOT NULL,
     latitude numeric(10,6) NOT NULL,
     longitude numeric(10,6) NOT NULL
 );
@@ -286,7 +290,7 @@ ALTER SEQUENCE public.instansi_instansi_id_seq OWNED BY public.instansi.instansi
 
 CREATE TABLE public.jenis_donor (
     jenis_id integer NOT NULL,
-    nama character varying(255) NOT NULL
+    nama character varying(15) NOT NULL
 );
 
 
@@ -320,7 +324,7 @@ ALTER SEQUENCE public.jenis_donor_jenis_id_seq OWNED BY public.jenis_donor.jenis
 
 CREATE TABLE public.jenis_kantong (
     jkantong_id integer NOT NULL,
-    keterangan character varying(255) NOT NULL
+    keterangan character varying(20) NOT NULL
 );
 
 
@@ -354,8 +358,8 @@ ALTER SEQUENCE public.jenis_kantong_jkantong_id_seq OWNED BY public.jenis_kanton
 
 CREATE TABLE public.kendaraan (
     no_plat character varying(10) NOT NULL,
-    nama character varying(255) NOT NULL,
-    keterangan character varying(255) NOT NULL
+    nama character varying(20) NOT NULL,
+    keterangan character varying(20) NOT NULL
 );
 
 
@@ -384,7 +388,7 @@ ALTER TABLE public.kerjasama_instansi OWNER TO postgres;
 
 CREATE TABLE public.kondisi (
     kondisi_id integer NOT NULL,
-    kondisi character varying(255) NOT NULL
+    kondisi character varying(120) NOT NULL
 );
 
 
@@ -432,12 +436,14 @@ ALTER TABLE public.kondisi_registrasi OWNER TO postgres;
 
 CREATE TABLE public.member (
     nik character varying(16) NOT NULL,
-    nama character varying(255) NOT NULL,
-    jenis_kelamin character varying(255) NOT NULL,
-    alamat character varying(255) NOT NULL,
-    pekerjaan character varying(255) NOT NULL,
-    tempat_lahir character varying(255) NOT NULL,
-    tanggal_lahir date NOT NULL
+    nama character varying(25) NOT NULL,
+    jenis_kelamin character varying(10) NOT NULL,
+    alamat character varying(50) NOT NULL,
+    pekerjaan character varying(20) NOT NULL,
+    tempat_lahir character varying(20) NOT NULL,
+    tanggal_lahir date NOT NULL,
+    gol_darah character varying(2) NOT NULL,
+    rh character varying(1) NOT NULL
 );
 
 
@@ -453,9 +459,7 @@ CREATE TABLE public.pemeriksaan_hb (
     hb_id integer NOT NULL,
     hb integer NOT NULL,
     hct integer NOT NULL,
-    berat_badan integer NOT NULL,
-    gol_darah character varying(2) NOT NULL,
-    rh character varying(1) NOT NULL
+    berat_badan integer NOT NULL
 );
 
 
@@ -472,7 +476,7 @@ CREATE TABLE public.pemeriksaan_paramedik (
     tensi integer NOT NULL,
     suhu integer NOT NULL,
     nadi integer NOT NULL,
-    riwayat_medis character varying(255) NOT NULL,
+    riwayat_medis character varying(25) NOT NULL,
     jkantong_id integer NOT NULL,
     jumlah_pengambilan integer NOT NULL
 );
@@ -519,7 +523,7 @@ ALTER TABLE public.petugas_paramedik OWNER TO postgres;
 
 CREATE TABLE public.pilihan_kondisi (
     pilihan_id integer NOT NULL,
-    keterangan character varying(255) NOT NULL
+    keterangan character varying(15) NOT NULL
 );
 
 
@@ -583,7 +587,7 @@ ALTER TABLE public.registrasi_event OWNER TO postgres;
 
 CREATE TABLE public.status_registrasi (
     status_id integer NOT NULL,
-    keterangan character varying(255) NOT NULL
+    keterangan character varying(120) NOT NULL
 );
 
 
@@ -617,11 +621,11 @@ ALTER SEQUENCE public.status_registrasi_status_id_seq OWNED BY public.status_reg
 
 CREATE TABLE public.users (
     user_id integer NOT NULL,
-    nama character varying(255) NOT NULL,
+    nama character varying(25) NOT NULL,
     jenis_kelamin character varying(10) NOT NULL,
     no_handphone character varying(13) NOT NULL,
-    username character varying(255) NOT NULL,
-    password character varying(255) NOT NULL
+    username character varying(20) NOT NULL,
+    password character varying(32) NOT NULL
 );
 
 
@@ -710,8 +714,11 @@ ALTER TABLE ONLY public.users ALTER COLUMN user_id SET DEFAULT nextval('public.u
 --
 
 COPY public.donor (nik, no_datang, aftap_id, nomor_kantong, reaksi_donor, jumlah_ambil) FROM stdin;
-1	1	18	1	1	1
-2	2	18	1	1	1
+1	2	21	1	-	250
+2	2	21	2	-	250
+3	1	21	3	-	250
+4	1	21	4	-	250
+5	1	21	5	-	250
 \.
 
 
@@ -723,6 +730,7 @@ COPY public.instansi (instansi_id, nama, latitude, longitude) FROM stdin;
 3	Balai Kota Padang	-0.876374	100.387421
 6	STKIP PGRI Sumatera Barat	-0.909681	100.367650
 7	Universitas Bung Hatta	-0.908402	100.365499
+8	Universitas Andalas	-0.914487	100.459499
 \.
 
 
@@ -766,9 +774,26 @@ BA4321AB	Innova	Putih
 --
 
 COPY public.kerjasama_instansi (no_plat, waktu_mulai, waktu_selesai, instansi_id, target, latitude, longitude) FROM stdin;
-BA1234AB	2019-04-15 09:00:00	2019-04-15 11:00:00	3	150	-0.876374	100.387421
-BA4321AB	2019-04-15 09:00:00	2019-04-15 12:00:00	6	150	-0.909681	100.367650
-BA1234AB	2019-04-15 11:00:00	2019-04-15 12:00:00	7	100	-0.908402	100.365499
+BA1234AB	2019-04-16 14:00:00	2019-04-16 16:00:00	8	150	-0.914487	100.459499
+BA1234AB	2019-04-16 16:00:00	2019-04-16 18:00:00	3	150	-0.876374	100.387421
+BA4321AB	2019-04-16 14:00:00	2019-04-16 16:00:00	6	150	-0.909681	100.367650
+BA4321AB	2019-04-16 16:00:00	2019-04-16 18:00:00	7	150	-0.908402	100.365499
+BA1234AB	2019-04-23 10:00:00	2019-04-23 12:00:00	3	100	-0.876374	100.387421
+BA1234AB	2019-04-23 12:00:00	2019-04-23 14:00:00	3	100	-0.876374	100.387421
+BA4321AB	2019-04-23 10:00:00	2019-04-23 12:00:00	7	100	-0.908402	100.365499
+BA1234AB	2019-04-23 14:00:00	2019-04-23 16:00:00	6	100	-0.909681	100.367650
+BA1234AB	2019-04-23 16:00:00	2019-04-23 18:00:00	3	100	-0.876374	100.387421
+BA1234AB	2019-04-30 08:00:00	2019-04-30 22:00:00	8	100	-0.914487	100.459499
+BA1234AB	2019-04-18 08:00:00	2019-04-18 10:00:00	7	100	-0.908402	100.365499
+BA1234AB	2019-04-18 10:00:00	2019-04-18 12:00:00	7	100	-0.908402	100.365499
+BA1234AB	2019-04-18 12:00:00	2019-04-18 14:00:00	3	100	-0.876374	100.387421
+BA1234AB	2019-04-18 14:00:00	2019-04-18 16:00:00	8	100	-0.914487	100.459499
+BA4321AB	2019-04-18 08:00:00	2019-04-18 22:00:00	8	100	-0.914487	100.459499
+BA1234AB	2019-04-19 08:00:00	2019-04-19 10:00:00	6	100	-0.909681	100.367650
+BA1234AB	2019-04-19 10:00:00	2019-04-19 12:00:00	3	100	-0.876374	100.387421
+BA1234AB	2019-04-19 12:00:00	2019-04-19 14:00:00	8	100	-0.914487	100.459499
+BA1234AB	2019-04-21 08:00:00	2019-04-21 10:00:00	3	0	-0.876374	100.387421
+BA1234AB	2019-04-21 10:00:00	2019-04-21 12:00:00	3	100	-0.876374	100.387421
 \.
 
 
@@ -805,26 +830,26 @@ COPY public.kondisi (kondisi_id, kondisi) FROM stdin;
 --
 
 COPY public.kondisi_registrasi (nik, no_datang, kondisi_id, pilihan_id) FROM stdin;
-1	1	10	3
-1	1	8	3
-1	1	20	3
-1	1	9	3
-1	1	11	3
-1	1	14	3
-1	1	15	3
-1	1	3	3
-1	1	5	3
-1	1	4	3
-1	1	16	3
-1	1	7	3
-1	1	17	3
-1	1	19	3
-1	1	12	3
-1	1	13	3
-1	1	1	3
-1	1	6	3
-1	1	18	3
-1	1	2	3
+1	1	10	2
+1	1	8	2
+1	1	20	2
+1	1	9	2
+1	1	11	2
+1	1	14	2
+1	1	15	2
+1	1	3	2
+1	1	5	2
+1	1	4	2
+1	1	16	2
+1	1	7	2
+1	1	17	2
+1	1	19	2
+1	1	12	2
+1	1	13	2
+1	1	1	2
+1	1	6	2
+1	1	18	2
+1	1	2	2
 2	1	10	3
 2	1	8	3
 2	1	20	3
@@ -845,6 +870,46 @@ COPY public.kondisi_registrasi (nik, no_datang, kondisi_id, pilihan_id) FROM std
 2	1	6	3
 2	1	18	3
 2	1	2	3
+1	2	10	3
+1	2	8	3
+1	2	20	3
+1	2	9	3
+1	2	11	3
+1	2	14	3
+1	2	15	3
+1	2	3	3
+1	2	5	3
+1	2	4	3
+1	2	16	3
+1	2	7	3
+1	2	17	3
+1	2	19	3
+1	2	12	3
+1	2	13	3
+1	2	1	3
+1	2	6	3
+1	2	18	3
+1	2	2	3
+2	2	10	3
+2	2	8	3
+2	2	20	3
+2	2	9	3
+2	2	11	3
+2	2	14	3
+2	2	15	3
+2	2	3	3
+2	2	5	3
+2	2	4	3
+2	2	16	3
+2	2	7	3
+2	2	17	3
+2	2	19	3
+2	2	12	3
+2	2	13	3
+2	2	1	3
+2	2	6	3
+2	2	18	3
+2	2	2	3
 3	1	10	3
 3	1	8	3
 3	1	20	3
@@ -885,26 +950,26 @@ COPY public.kondisi_registrasi (nik, no_datang, kondisi_id, pilihan_id) FROM std
 4	1	6	3
 4	1	18	3
 4	1	2	3
-2	2	10	3
-2	2	8	3
-2	2	20	3
-2	2	9	3
-2	2	11	3
-2	2	14	3
-2	2	15	3
-2	2	3	3
-2	2	5	3
-2	2	4	3
-2	2	16	3
-2	2	7	3
-2	2	17	3
-2	2	19	3
-2	2	12	3
-2	2	13	3
-2	2	1	3
-2	2	6	3
-2	2	18	3
-2	2	2	3
+5	1	10	3
+5	1	8	3
+5	1	20	3
+5	1	9	3
+5	1	11	3
+5	1	14	3
+5	1	15	3
+5	1	3	3
+5	1	5	3
+5	1	4	3
+5	1	16	3
+5	1	7	3
+5	1	17	3
+5	1	19	3
+5	1	12	3
+5	1	13	3
+5	1	1	3
+5	1	6	3
+5	1	18	3
+5	1	2	3
 3	2	10	3
 3	2	8	3
 3	2	20	3
@@ -925,46 +990,46 @@ COPY public.kondisi_registrasi (nik, no_datang, kondisi_id, pilihan_id) FROM std
 3	2	6	3
 3	2	18	3
 3	2	2	3
-4	2	10	3
-4	2	8	3
-4	2	20	3
-4	2	9	3
-4	2	11	3
-4	2	14	3
-4	2	15	3
-4	2	3	3
-4	2	5	3
-4	2	4	3
-4	2	16	3
-4	2	7	3
-4	2	17	3
-4	2	19	3
-4	2	12	3
-4	2	13	3
-4	2	1	3
-4	2	6	3
-4	2	18	3
-4	2	2	3
-1	2	10	3
-1	2	8	3
-1	2	20	3
-1	2	9	3
-1	2	11	3
-1	2	14	3
-1	2	15	3
-1	2	3	3
-1	2	5	3
-1	2	4	3
-1	2	16	3
-1	2	7	3
-1	2	17	3
-1	2	19	3
-1	2	12	3
-1	2	13	3
-1	2	1	3
-1	2	6	3
-1	2	18	3
-1	2	2	3
+1	3	10	3
+1	3	8	3
+1	3	20	3
+1	3	9	3
+1	3	11	3
+1	3	14	3
+1	3	15	3
+1	3	3	3
+1	3	5	3
+1	3	4	3
+1	3	16	3
+1	3	7	3
+1	3	17	3
+1	3	19	3
+1	3	12	3
+1	3	13	3
+1	3	1	3
+1	3	6	3
+1	3	18	3
+1	3	2	3
+6	1	10	3
+6	1	8	3
+6	1	20	3
+6	1	9	3
+6	1	11	3
+6	1	14	3
+6	1	15	3
+6	1	3	3
+6	1	5	3
+6	1	4	3
+6	1	16	3
+6	1	7	3
+6	1	17	3
+6	1	19	3
+6	1	12	3
+6	1	13	3
+6	1	1	3
+6	1	6	3
+6	1	18	3
+6	1	2	3
 \.
 
 
@@ -972,11 +1037,13 @@ COPY public.kondisi_registrasi (nik, no_datang, kondisi_id, pilihan_id) FROM std
 -- Data for Name: member; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.member (nik, nama, jenis_kelamin, alamat, pekerjaan, tempat_lahir, tanggal_lahir) FROM stdin;
-1	1	Pria	1	1	1	2000-01-01
-2	2	Wanita	2	2	2	1981-02-02
-3	3	Wanita	3	3	3	1992-03-03
-4	4	Wanita	4	4	4	2008-04-04
+COPY public.member (nik, nama, jenis_kelamin, alamat, pekerjaan, tempat_lahir, tanggal_lahir, gol_darah, rh) FROM stdin;
+1	Yoga	Pria	Lolong Belanti	Mahasiswa	Padang	1998-08-09	B	+
+2	2	Pria	A	2	2	1990-01-01	A	+
+3	3	Wanita	3	3	3	1970-03-03	O	-
+4	4	Wanita	4	4	4	1940-04-04	O	-
+5	5	Pria	5	5	5	1950-05-05	AB	+
+6	6	Pria	6	6	6	1960-06-06	AB	-
 \.
 
 
@@ -984,11 +1051,13 @@ COPY public.member (nik, nama, jenis_kelamin, alamat, pekerjaan, tempat_lahir, t
 -- Data for Name: pemeriksaan_hb; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.pemeriksaan_hb (nik, no_datang, hb_id, hb, hct, berat_badan, gol_darah, rh) FROM stdin;
-1	1	17	1	1	1	A	+
-1	2	17	1	1	1	A	+
-4	2	17	1	1	1	A	-
-2	2	17	1	1	1	B	-
+COPY public.pemeriksaan_hb (nik, no_datang, hb_id, hb, hct, berat_badan) FROM stdin;
+1	1	20	15	30	80
+1	2	20	1	1	1
+2	2	20	1	1	1
+3	1	20	1	1	1
+4	1	20	1	1	1
+5	1	20	1	1	1
 \.
 
 
@@ -997,8 +1066,11 @@ COPY public.pemeriksaan_hb (nik, no_datang, hb_id, hb, hct, berat_badan, gol_dar
 --
 
 COPY public.pemeriksaan_paramedik (nik, no_datang, paramedik_id, tensi, suhu, nadi, riwayat_medis, jkantong_id, jumlah_pengambilan) FROM stdin;
-1	1	19	1	1	1	1	2	1
-2	2	19	1	1	1	1	2	1
+1	2	22	2	2	2	tidak ada	2	250
+2	2	22	2	2	2	tidak ada	2	250
+3	1	22	2	2	2	-	2	250
+4	1	22	2	2	2	-	2	250
+5	1	22	2	2	2	-	2	250
 \.
 
 
@@ -1007,8 +1079,7 @@ COPY public.pemeriksaan_paramedik (nik, no_datang, paramedik_id, tensi, suhu, na
 --
 
 COPY public.petugas_aftap (aftap_id) FROM stdin;
-1
-18
+21
 \.
 
 
@@ -1017,8 +1088,7 @@ COPY public.petugas_aftap (aftap_id) FROM stdin;
 --
 
 COPY public.petugas_hb (hb_id) FROM stdin;
-1
-17
+20
 \.
 
 
@@ -1027,8 +1097,7 @@ COPY public.petugas_hb (hb_id) FROM stdin;
 --
 
 COPY public.petugas_paramedik (paramedik_id) FROM stdin;
-1
-19
+22
 \.
 
 
@@ -1048,14 +1117,16 @@ COPY public.pilihan_kondisi (pilihan_id, keterangan) FROM stdin;
 --
 
 COPY public.registrasi (nik, no_datang, jenis_id, status_id, tanggal) FROM stdin;
-2	1	1	5	2019-04-14 22:22:34.908908
-3	1	1	9	2019-04-14 22:23:24.455135
-4	1	3	6	2019-04-14 22:24:25.000853
-1	1	1	4	2019-04-14 22:21:43.939475
-3	2	2	11	2019-04-14 22:28:15.320972
-1	2	4	7	2019-04-14 22:28:45.286517
-4	2	4	5	2019-04-14 22:28:26.534409
-2	2	2	4	2019-04-14 22:27:59.860326
+2	1	1	5	2019-04-23 03:09:36.335751
+1	1	1	5	2019-04-23 01:39:46.214218
+1	3	2	6	2019-04-23 05:23:20.945731
+3	2	2	7	2019-04-23 05:23:11.113484
+6	1	1	8	2019-04-23 05:24:58.554124
+1	2	2	4	2019-04-23 05:09:08.894464
+2	2	2	4	2019-04-23 05:09:17.458879
+3	1	1	4	2019-04-23 05:11:14.643492
+4	1	1	4	2019-04-23 05:13:52.29568
+5	1	1	4	2019-04-23 05:15:11.120019
 \.
 
 
@@ -1064,10 +1135,9 @@ COPY public.registrasi (nik, no_datang, jenis_id, status_id, tanggal) FROM stdin
 --
 
 COPY public.registrasi_event (nik, no_datang, no_plat, waktu_mulai, waktu_selesai) FROM stdin;
-2	2	BA1234AB	2019-04-15 09:00:00	2019-04-15 11:00:00
-3	2	BA1234AB	2019-04-15 09:00:00	2019-04-15 11:00:00
-4	2	BA1234AB	2019-04-15 09:00:00	2019-04-15 11:00:00
-1	2	BA1234AB	2019-04-15 09:00:00	2019-04-15 11:00:00
+3	2	BA1234AB	2019-04-16 14:00:00	2019-04-16 16:00:00
+1	3	BA1234AB	2019-04-16 14:00:00	2019-04-16 16:00:00
+6	1	BA1234AB	2019-04-16 14:00:00	2019-04-16 16:00:00
 \.
 
 
@@ -1095,10 +1165,10 @@ COPY public.status_registrasi (status_id, keterangan) FROM stdin;
 --
 
 COPY public.users (user_id, nama, jenis_kelamin, no_handphone, username, password) FROM stdin;
-1	admin	pria	08123456789	admin	21232f297a57a5a743894a0e4a801fc3
-17	Yoga	Pria	085274224215	rasakmarsawa	8e933201a769ead05cad04b3fad8adbb
-18	Yogi	Pria	085274224216	rasakmarsawa2	8e933201a769ead05cad04b3fad8adbb
-19	yogu	Pria	085274224217	rasakmarsawa3	8e933201a769ead05cad04b3fad8adbb
+20	Petugas HB	Pria	085274224215	petugashb	f61bb4b2ed09e4d75de9518787e92c7b
+21	petugas Aftap	Pria	085274224216	petugasaftap	e8063b33af135e712541634cae1fccf1
+22	petugas Paramedik	Pria	085274224217	petugasparamedik	61f0d11707ebad1e65c4cc7b55b8b0b2
+1	Dr. Widwarman	Pria	085274224215	admin	21232f297a57a5a743894a0e4a801fc3
 \.
 
 
@@ -1113,7 +1183,7 @@ SELECT pg_catalog.setval('public.donor_nomor_kantung_seq', 1, false);
 -- Name: instansi_instansi_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.instansi_instansi_id_seq', 7, true);
+SELECT pg_catalog.setval('public.instansi_instansi_id_seq', 8, true);
 
 
 --
@@ -1155,7 +1225,7 @@ SELECT pg_catalog.setval('public.status_registrasi_status_id_seq', 13, true);
 -- Name: users_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_user_id_seq', 19, true);
+SELECT pg_catalog.setval('public.users_user_id_seq', 22, true);
 
 
 --
