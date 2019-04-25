@@ -18,8 +18,8 @@ class pemeriksaan_hb
       $sql = "INSERT INTO pemeriksaan_hb (nik,no_datang,hb_id,hb,hct,berat_badan)
       VALUES (
         '".$arr['nik']."',
-        ".$arr['no_datang'].",
-        ".$arr['hb_id'].",
+        '".$arr['no_datang']."',
+        '".$arr['hb_id']."',
         ".$arr['hb'].",
         ".$arr['hct'].",
         ".$arr['berat_badan']."

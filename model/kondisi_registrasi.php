@@ -16,7 +16,7 @@ class kondisi_registrasi
       }
     }
     if($check){
-      $search = "SELECT MAX(no_datang) as no_datang FROM registrasi WHERE nik='$nik'";
+      $search = "SELECT MAX(cast(no_datang as int)) as no_datang FROM registrasi WHERE nik='$nik'";
       $a = pg_query($dbconn, $search);
 
       $x = pg_fetch_array($a);
@@ -24,7 +24,7 @@ class kondisi_registrasi
 
       $sql = "INSERT INTO kondisi_registrasi(nik,no_datang,kondisi_id,pilihan_id) VALUES";
       foreach ($arr as $key => $value) {
-        $b = "('".$nik."',".$x['no_datang'].",$key,$value)";
+        $b = "('".$nik."','".$x['no_datang']."','$key','$value')";
         if($loop != count($arr)){
           $b = $b.",";
         }
@@ -37,7 +37,7 @@ class kondisi_registrasi
         $sql = "INSERT INTO registrasi_event (nik,no_datang,no_plat,waktu_mulai,waktu_selesai)
         VALUES (
           '".$nik."',
-          ".$x['no_datang'].",
+          '".$x['no_datang']."',
           '".$_COOKIE['location1']."',
           '".$_COOKIE['location2']."',
           '".$_COOKIE['location3']."'

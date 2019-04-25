@@ -15,7 +15,7 @@ class kondisi
       }
     }
     if($check){
-      $sql = "INSERT INTO kondisi (kondisi_id, kondisi)  VALUES (default,'".$arr['val']."')";
+      $sql = "INSERT INTO kondisi (kondisi_id, kondisi)  VALUES (null,'".$arr['val']."')";
       $result = pg_query($dbconn, $sql);
     }
 
@@ -46,7 +46,7 @@ class kondisi
 
   function delete($id){
     global $dbconn;
-    $result = pg_query($dbconn, "DELETE FROM kondisi WHERE kondisi_id = $id");
+    $result = pg_query($dbconn, "DELETE FROM kondisi WHERE kondisi_id = '$id'");
 
     if(!$result){
       return 'Delete_Error';

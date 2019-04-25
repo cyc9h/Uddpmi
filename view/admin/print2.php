@@ -24,9 +24,8 @@ $datab = report_c($_GET['month'],$_GET['year']);
 <html lang="en">
 <?php include '../head.html'; ?>
 <body>
-<h3 style='margin-bottom:0'><center>Laporan Donasi Darah Lengkap (Whole Blood/WB)</center></h3>
 <h4 style='margin:0'><center>UDD PMI Kota Padang</center></h4>
-<h4 style='margin-top:0'><center>Bulan : <?php echo $monthName.' '.$_GET['year'] ?></center></h4>
+<h4 style='margin-top:0'><center>Rekap Rencana Jadwal Unit Mobil</center></h4>
   <?php if (count($datab)!=0): ?>
     <table id="b">
       <thead>

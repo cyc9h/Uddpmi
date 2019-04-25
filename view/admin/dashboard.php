@@ -2,6 +2,7 @@
 include '../../controller/session_include.php';
 include '../../controller/connection.php';
 include '../../controller/report.php';
+include '../../model/users.php';
 
 $title = 'Dashboard';
 $data = [];
@@ -22,6 +23,13 @@ if(isset($_POST['submit'])){
   }
 
 
+}
+
+if(isset($_POST['update'])){
+  $_SESSION['data']['nama'] = $_POST['nama'];
+  $user = new User();
+  $res = $user->update($_POST['nama']);
+  header('Location:?'.$res);
 }
 
 ?>
@@ -79,6 +87,22 @@ if(isset($_POST['submit'])){
                                   </div>
                                   <div class="col-md-2">
                                     <input type="submit" name="submit" value="Submit" class="btn btn-primary btn-fill pull-right">
+                                  </div>
+                                </form>
+
+                                <form  method="post">
+                                  <div class="row">
+                                    <div class="col-md-12">
+                                      Update Nama
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="col-md-10">
+                                        <input type="text" name="nama" value="<?php echo $_SESSION['data']['nama'] ?>" class="form-control">
+                                    </div>
+                                    <div class="col-md-2">
+                                      <input type="submit" name="update" value="Update" class="btn btn-primary btn-fill pull-right">
+                                    </div>
                                   </div>
                                 </form>
                               </div>

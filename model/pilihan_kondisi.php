@@ -15,7 +15,7 @@ class pilihan_kondisi
       }
     }
     if($check){
-      $sql = "INSERT INTO pilihan_kondisi (pilihan_id, keterangan)  VALUES (default,'".$arr['val']."')";
+      $sql = "INSERT INTO pilihan_kondisi (pilihan_id, keterangan)  VALUES (null,'".$arr['val']."')";
       $result = pg_query($dbconn, $sql);
     }
 
@@ -46,7 +46,7 @@ class pilihan_kondisi
 
   function delete($id){
     global $dbconn;
-    $result = pg_query($dbconn, "DELETE FROM pilihan_kondisi WHERE pilihan_id = $id");
+    $result = pg_query($dbconn, "DELETE FROM pilihan_kondisi WHERE pilihan_id = '$id'");
 
     if(!$result){
       return 'Delete_Error';

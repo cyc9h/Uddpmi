@@ -20,7 +20,7 @@ if(isset($_POST['submit'])){
       $_POST['aftap_id'] = $check['aftap_id'];
       $result = $pemeriksaan->insert($_POST);
       if($result=="Insert_Error"){
-        header('Location:?nik='.$_GET['nik'].'&no='.$_GET['no'].'&'.$result);
+        // header('Location:?nik='.$_GET['nik'].'&no='.$_GET['no'].'&'.$result);
       }else{
         header('Location:donor.php?'.$result);
       }

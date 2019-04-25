@@ -46,7 +46,7 @@ class User
 
   function delete_by_id($id){
     global $dbconn;
-    $result = pg_query($dbconn, "DELETE FROM users WHERE user_id = $id");
+    $result = pg_query($dbconn, "DELETE FROM users WHERE user_id = '$id'");
 
     if(!$result){
       return 'Delete_Error';
@@ -66,7 +66,7 @@ class User
       }
     }
     if($check){
-      $sql = "INSERT INTO users (user_id, nama, jenis_kelamin, no_handphone, username, password)  VALUES (default,'".$arr['nama']."','".$arr['jenis_kelamin']."','".$arr['no_handphone']."','".$arr['username']."',md5('".$arr['password']."'))";
+      $sql = "INSERT INTO users (user_id, nama, jenis_kelamin, no_handphone, username, password)  VALUES (null,'".$arr['nama']."','".$arr['jenis_kelamin']."','".$arr['no_handphone']."','".$arr['username']."',md5('".$arr['password']."'))";
       $result = pg_query($dbconn, $sql);
     }
 
@@ -123,7 +123,7 @@ class User
 
   function select_by_id($id){
     global $dbconn;
-    $result = pg_query($dbconn, "SELECT * FROM users WHERE user_id = $id");
+    $result = pg_query($dbconn, "SELECT * FROM users WHERE user_id = '$id'");
     if (!$result) {
         echo "An error occurred.\n";
         exit;
@@ -136,6 +136,23 @@ class User
       }
       return $data;
     }
+  }
+
+  function update($arr){
+    global $dbconn;
+      $sql = "
+      UPDATE public.users
+	     SET nama='$arr'
+	     WHERE user_id='1'";
+       echo $sql;
+      $result = pg_query($dbconn, $sql);
+
+
+      if(!$result){
+        return 'Insert_Error';
+      }else{
+        return 'Insert_Success';
+      }
   }
 }
 

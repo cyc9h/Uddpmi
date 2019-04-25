@@ -18,12 +18,13 @@ class donor
       $sql = "INSERT INTO donor (nik,no_datang,aftap_id,nomor_kantong,reaksi_donor,jumlah_ambil)
       VALUES (
         '".$arr['nik']."',
-        ".$arr['no_datang'].",
-        ".$arr['aftap_id'].",
+        '".$arr['no_datang']."',
+        '".$arr['aftap_id']."',
         ".$arr['nomor_kantong'].",
         '".$arr['reaksi_donor']."',
         ".$arr['jumlah_ambil']."
       )";
+      echo $sql;
       $result = pg_query($dbconn, $sql);
     }
 

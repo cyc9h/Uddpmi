@@ -15,7 +15,7 @@ class instansi
       }
     }
     if($check){
-      $sql = "INSERT INTO instansi (instansi_id,nama,latitude,longitude)  VALUES (default,'".$arr['nama']."',".$arr['lat'].",".$arr['long'].")";
+      $sql = "INSERT INTO instansi (instansi_id,nama,latitude,longitude)  VALUES (null,'".$arr['nama']."',".$arr['lat'].",".$arr['long'].")";
       $result = pg_query($dbconn, $sql);
     }
 

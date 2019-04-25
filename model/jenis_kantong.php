@@ -16,7 +16,7 @@ class jenis_kantong
       }
     }
     if($check){
-      $sql = "INSERT INTO jenis_kantong (jkantong_id, keterangan)  VALUES (default,'".$arr['nama']."')";
+      $sql = "INSERT INTO jenis_kantong (jkantong_id, keterangan)  VALUES (null,'".$arr['nama']."')";
       $result = pg_query($dbconn, $sql);
     }
 
@@ -47,7 +47,7 @@ class jenis_kantong
 
   function delete($id){
     global $dbconn;
-    $result = pg_query($dbconn, "DELETE FROM jenis_kantong WHERE jkantong_id = $id");
+    $result = pg_query($dbconn, "DELETE FROM jenis_kantong WHERE jkantong_id = '$id'");
 
     if(!$result){
       return 'Delete_Error';
@@ -58,7 +58,7 @@ class jenis_kantong
 
   function select_by_id($id){
     global $dbconn;
-    $result = pg_query($dbconn, "SELECT * FROM jenis_kantong WHERE jkantong_id = $id");
+    $result = pg_query($dbconn, "SELECT * FROM jenis_kantong WHERE jkantong_id = '$id'");
     if (!$result) {
         echo "An error occurred.\n";
         exit;

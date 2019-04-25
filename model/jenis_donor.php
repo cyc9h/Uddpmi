@@ -16,7 +16,7 @@ class jenis_donor
       }
     }
     if($check){
-      $sql = "INSERT INTO jenis_donor (jenis_id, nama)  VALUES (default,'".$arr['nama']."')";
+      $sql = "INSERT INTO jenis_donor (jenis_id, nama)  VALUES (null,'".$arr['nama']."')";
       $result = pg_query($dbconn, $sql);
     }
 
@@ -47,7 +47,7 @@ class jenis_donor
 
   function delete($id){
     global $dbconn;
-    $result = pg_query($dbconn, "DELETE FROM jenis_donor WHERE jenis_id = $id");
+    $result = pg_query($dbconn, "DELETE FROM jenis_donor WHERE jenis_id = '$id'");
 
     if(!$result){
       return 'Delete_Error';

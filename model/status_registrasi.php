@@ -15,7 +15,7 @@ class status_registrasi
       }
     }
     if($check){
-      $sql = "INSERT INTO status_registrasi (status_id, keterangan)  VALUES (default,'".$arr['val']."')";
+      $sql = "INSERT INTO status_registrasi (status_id, keterangan)  VALUES (null,'".$arr['val']."')";
       $result = pg_query($dbconn, $sql);
     }
 
@@ -46,7 +46,7 @@ class status_registrasi
 
   function select_fail(){
     global $dbconn;
-    $result = pg_query($dbconn, "SELECT * FROM status_registrasi WHERE status_id > 4");
+    $result = pg_query($dbconn, "SELECT * FROM status_registrasi WHERE cast(status_id as int) > 4");
     if (!$result) {
         echo "An error occurred.\n";
         exit;
@@ -63,7 +63,7 @@ class status_registrasi
 
   function delete($id){
     global $dbconn;
-    $result = pg_query($dbconn, "DELETE FROM status_registrasi WHERE status_id = $id");
+    $result = pg_query($dbconn, "DELETE FROM status_registrasi WHERE status_id = '$id'");
 
     if(!$result){
       return 'Delete_Error';

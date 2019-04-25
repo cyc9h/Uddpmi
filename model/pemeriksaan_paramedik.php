@@ -18,13 +18,13 @@ class pemeriksaan_paramedik
       $sql = "INSERT INTO pemeriksaan_paramedik (nik,no_datang,paramedik_id,tensi,suhu,nadi,riwayat_medis,jkantong_id,jumlah_pengambilan)
       VALUES (
         '".$arr['nik']."',
-        ".$arr['no_datang'].",
-        ".$arr['paramedik_id'].",
+        '".$arr['no_datang']."',
+        '".$arr['paramedik_id']."',
         ".$arr['tensi'].",
         ".$arr['suhu'].",
         ".$arr['nadi'].",
         '".$arr['riwayat_medis']."',
-        ".$arr['jkantong_id'].",
+        '".$arr['jkantong_id']."',
         ".$arr['jumlah_pengambilan']."
       )";
       $result = pg_query($dbconn, $sql);

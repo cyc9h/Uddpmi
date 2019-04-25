@@ -65,7 +65,7 @@ if(isset($_POST['submit'])){
                                             <?php if ($value['jenis_id']>2&&isset($_COOKIE['location1'])): ?>
                                             <?php else: ?>
                                               <option value="<?php echo $value['jenis_id'] ?>"><?php echo $value['nama'] ?></option>
-                                            <?php endif; ?>                                            
+                                            <?php endif; ?>
                                           <?php endforeach; ?>
                                         </select>
                                     </div>

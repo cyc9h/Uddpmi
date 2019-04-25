@@ -28,8 +28,8 @@ class registrasi
       VALUES (
         '".$arr['nik']."',
         null,
-        ".$arr['jenis_id'].",
-        1,
+        '".$arr['jenis_id']."',
+        '1',
         NOW()
       )";
       $result = pg_query($dbconn, $sql);
@@ -56,14 +56,13 @@ class registrasi
     LEFT JOIN pemeriksaan_hb ON (registrasi.nik,registrasi.no_datang) = (pemeriksaan_hb.nik,pemeriksaan_hb.no_datang)
     LEFT JOIN pemeriksaan_paramedik ON (registrasi.nik,registrasi.no_datang) = (pemeriksaan_paramedik.nik,pemeriksaan_paramedik.no_datang)
     LEFT JOIN donor ON (registrasi.nik,registrasi.no_datang) = (donor.nik,donor.no_datang)
-    WHERE registrasi.nik = '".$arr['nik']."' and registrasi.no_datang = ".$arr['no'];
+    WHERE registrasi.nik = '".$arr['nik']."' and registrasi.no_datang = '".$arr['no']."'";
 
     if(isset($_COOKIE['location1'])){
       $sql = $sql. " AND no_plat = '".$_COOKIE['location1']."' AND waktu_mulai = '". $_COOKIE['location2']."'";
     }else{
       $sql = $sql. " AND no_plat is null AND waktu_mulai is null";
     }
-
     $result = pg_query($dbconn, $sql);
     if (!$result) {
         echo "An error occurred.\n";
@@ -85,7 +84,7 @@ class registrasi
     SELECT registrasi.nik, registrasi.no_datang, member.nama, date_trunc('second',registrasi.tanggal) FROM registrasi
     INNER JOIN member ON registrasi.nik = member.nik
     LEFT JOIN registrasi_event ON (registrasi.nik, registrasi.no_datang) = (registrasi_event.nik, registrasi_event.no_datang)
-    WHERE status_id = ".$status_id;
+    WHERE status_id = '".$status_id."'";
     if(isset($_COOKIE['location1'])){
       $sql = $sql. " AND no_plat = '".$_COOKIE['location1']."' AND waktu_mulai = '". $_COOKIE['location2']."'";
     }else{
@@ -129,7 +128,7 @@ class registrasi
       }
     }
     if($check){
-      $sql = "UPDATE registrasi SET status_id = ".$arr['status_id']." WHERE nik ='".$arr['nik']."' AND no_datang =".$arr['no_datang'];
+      $sql = "UPDATE registrasi SET status_id = '".$arr['status_id']."' WHERE nik ='".$arr['nik']."' AND no_datang ='".$arr['no_datang']."'";
       echo $sql;
       $result = pg_query($dbconn, $sql);
     }

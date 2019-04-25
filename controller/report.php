@@ -11,12 +11,12 @@ function report_a($month, $year){
   		WHEN age >= 60 THEN '60-...'
   	END AS ".'"Kelompok Umur"'.",
   	count(*) as ".'"Jumlah Donasi"'.",
-  	SUM(CASE WHEN jenis_id = 1 AND no_plat IS null THEN 1 ELSE 0 END) AS ".'"Baru(Pusat)"'.",
-  	SUM(CASE WHEN jenis_id = 2 AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Ulang(Pusat)"'.",
-  	SUM(CASE WHEN jenis_id = 3 AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Pengganti(Pusat)"'.",
-  	SUM(CASE WHEN jenis_id = 4 AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Bayaran(Pusat)"'.",
-  	SUM(CASE WHEN jenis_id = 1 AND no_plat is not null THEN 1 else 0 END) AS ".'"Baru(Kegiatan)"'.",
-  	SUM(CASE WHEN jenis_id = 2 AND no_plat is not null THEN 1 else 0 END) AS ".'"Ulang(Kegiatan)"'.",
+  	SUM(CASE WHEN jenis_id = '1' AND no_plat IS null THEN 1 ELSE 0 END) AS ".'"Baru(Pusat)"'.",
+  	SUM(CASE WHEN jenis_id = '2' AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Ulang(Pusat)"'.",
+  	SUM(CASE WHEN jenis_id = '3' AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Pengganti(Pusat)"'.",
+  	SUM(CASE WHEN jenis_id = '4' AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Bayaran(Pusat)"'.",
+  	SUM(CASE WHEN jenis_id = '1' AND no_plat is not null THEN 1 else 0 END) AS ".'"Baru(Kegiatan)"'.",
+  	SUM(CASE WHEN jenis_id = '2' AND no_plat is not null THEN 1 else 0 END) AS ".'"Ulang(Kegiatan)"'.",
   	SUM(CASE WHEN jk = 'Pria' THEN 1 ELSE 0 END) AS ".'"Pria"'.",
   	SUM(CASE WHEN jk = 'Wanita' THEN 1 ELSE 0 END) AS ".'"Wanita"'.",
   	SUM(CASE WHEN gol_darah = 'O' AND rh = '+' THEN 1 ELSE 0 END) AS ".'"O+"'.",
@@ -41,22 +41,22 @@ function report_a($month, $year){
   			  inner join jenis_donor on registrasi.jenis_id = jenis_donor.jenis_id
   			  left join registrasi_event on (registrasi.nik,registrasi.no_datang) = (registrasi_event.nik,registrasi_event.no_datang)
   	where
-  	  EXTRACT(MONTH FROM tanggal) = 4
+  	  EXTRACT(MONTH FROM tanggal) = $month
   	AND
-  	  EXTRACT(YEAR FROM tanggal) = 2019
-  	AND status_id = 4
+  	  EXTRACT(YEAR FROM tanggal) = $year
+  	AND status_id = '4'
     ) as x
     group by ".'"Kelompok Umur"'."
     UNION ALL
     SELECT
     	'Total',
   	COUNT(*),
-      SUM(CASE WHEN registrasi.jenis_id = 1 AND no_plat IS null THEN 1 ELSE 0 END) AS ".'"Baru(Pusat)"'.",
-  	SUM(CASE WHEN registrasi.jenis_id = 2 AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Ulang(Pusat)"'.",
-  	SUM(CASE WHEN registrasi.jenis_id = 3 AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Pengganti(Pusat)"'.",
-  	SUM(CASE WHEN registrasi.jenis_id = 4 AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Bayaran(Pusat)"'.",
-  	SUM(CASE WHEN registrasi.jenis_id = 1 AND no_plat is not null THEN 1 else 0 END) AS ".'"Baru(Kegiatan)"'.",
-  	SUM(CASE WHEN registrasi.jenis_id = 2 AND no_plat is not null THEN 1 else 0 END) AS ".'"Ulang(Kegiatan)"'.",
+      SUM(CASE WHEN registrasi.jenis_id = '1' AND no_plat IS null THEN 1 ELSE 0 END) AS ".'"Baru(Pusat)"'.",
+  	SUM(CASE WHEN registrasi.jenis_id = '2' AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Ulang(Pusat)"'.",
+  	SUM(CASE WHEN registrasi.jenis_id = '3' AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Pengganti(Pusat)"'.",
+  	SUM(CASE WHEN registrasi.jenis_id = '4' AND no_plat is null THEN 1 ELSE 0 END) AS ".'"Bayaran(Pusat)"'.",
+  	SUM(CASE WHEN registrasi.jenis_id = '1' AND no_plat is not null THEN 1 else 0 END) AS ".'"Baru(Kegiatan)"'.",
+  	SUM(CASE WHEN registrasi.jenis_id = '2' AND no_plat is not null THEN 1 else 0 END) AS ".'"Ulang(Kegiatan)"'.",
       SUM(CASE WHEN jenis_kelamin = 'Pria' THEN 1 ELSE 0 END),
   	SUM(CASE WHEN jenis_kelamin = 'Wanita' THEN 1 ELSE 0 END),
   	SUM(CASE WHEN gol_darah = 'O' AND rh = '+' THEN 1 ELSE 0 END) AS ".'"O+"'.",
@@ -71,7 +71,7 @@ function report_a($month, $year){
     INNER JOIN member ON registrasi.nik = member.nik
     INNER JOIN jenis_donor ON registrasi.jenis_id = jenis_donor.jenis_id
     LEFT JOIN registrasi_event ON (registrasi.nik,registrasi.no_datang) = (registrasi_event.nik,registrasi_event.no_datang)
-    WHERE EXTRACT(MONTH FROM tanggal)=4 AND EXTRACT(YEAR FROM tanggal)=2019 AND status_id = 4
+    WHERE EXTRACT(MONTH FROM tanggal)=$month AND EXTRACT(YEAR FROM tanggal)=$year AND status_id = '4'
     ORDER by ".'"Kelompok Umur"'." ASC
   ";
 
@@ -98,7 +98,7 @@ function report_b($month, $year){
   	SUM(CASE WHEN nik IS NOT NULL AND EXTRACT(MONTH FROM tanggal)=$month AND EXTRACT(YEAR FROM tanggal)=$year THEN 1 ELSE 0 END) AS ".'"Jumlah"'."
   FROM status_registrasi
   LEFT JOIN registrasi ON status_registrasi.status_id = registrasi.status_id
-  WHERE status_registrasi.status_id>4
+  WHERE status_registrasi.status_id>'4'
   GROUP BY keterangan
   ";
 

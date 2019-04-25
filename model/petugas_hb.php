@@ -19,7 +19,7 @@ class petugas_hb
 
   function demote($id){
     global $dbconn;
-    $result = pg_query($dbconn, "DELETE FROM petugas_hb WHERE hb_id = $id");
+    $result = pg_query($dbconn, "DELETE FROM petugas_hb WHERE hb_id = '$id'");
 
     if(!$result){
       return 'Delete_Error';
